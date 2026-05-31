@@ -1,11 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { UserAPI } from '../../api/userAPI';
 import { newUser,updatedUser } from '../../testData/apiUsers';
+import { request } from 'node:http';
+
+let userApi;
 
 test.describe('User API tests', () => {
-    test('CREATE user', async ({ request }) => {
-        const userApi = new UserAPI(request);
 
+test.beforeEach(async ({request})=>{
+    userApi = new UserAPI(request);
+});
+
+    test('CREATE user', async ({ request }) => {
         const response = await userApi.createUser(newUser);
         expect(response.status()).toBe(201);
         const responseBody = await response.json();
@@ -15,7 +21,6 @@ test.describe('User API tests', () => {
     
 
     test('GET user by ID', async ({ request }) => {
-        const userApi = new UserAPI(request);
         const userId = 2; // Assuming this user ID exists in the API
         const response = await userApi.getUserById(userId);
         expect(response.status()).toBe(200);
@@ -26,9 +31,7 @@ test.describe('User API tests', () => {
     });
 
     test('UPDATE user', async ({ request }) => {
-        const userApi = new UserAPI(request);
         const userId = 2;
-    
         const response = await userApi.updateUser(userId, updatedUser);
         expect(response.status()).toBe(200);
         const responseBody = await response.json();
@@ -37,7 +40,6 @@ test.describe('User API tests', () => {
     });
 
     test('DELETE user', async ({ request }) => {
-        const userApi = new UserAPI(request);
         const userId = 2;
         const response = await userApi.deleteUser(userId);
         expect(response.status()).toBe(204);
