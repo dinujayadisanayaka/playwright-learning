@@ -1,9 +1,9 @@
 export class UserAPI {
     constructor(request) {
         this.request = request;
-        this.baseURL = 'https://reqres.in/api/users';
+        this.baseURL = process.env.API_BASE_URL;
         this.headers = {
-            'x-api-key': 'reqres_b482e96bf08543d8bea899ccef227da6'
+            'x-api-key': process.env.API_KEY
         };
     }
 
